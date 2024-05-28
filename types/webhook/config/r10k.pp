@@ -2,7 +2,7 @@
 type R10k::Webhook::Config::R10k = Struct[{
     command_path    => Optional[Stdlib::Absolutepath],
     config_path     => Optional[Stdlib::Absolutepath],
-    default_branch  => Optional[String[1]],
+    default_branch  => Optional[String],
     prefix          => Optional[String[1]],
     allow_uppercase => Optional[Boolean],
     verbose         => Optional[Boolean],
