@@ -9,9 +9,12 @@
 # @param config_ensure
 # @param config_path
 # @param chatops
+# @param chatops_default
 # @param tls
 # @param server
+# @param server_default
 # @param r10k
+# @param r10k_default
 # @param config
 #
 class r10k::webhook (
@@ -25,7 +28,8 @@ class r10k::webhook (
   Boolean $service_enabled = true,
   String $config_ensure                      = 'file',
   String $config_path                        = '/etc/voxpupuli/webhook.yml',
-  R10k::Webhook::Config::ChatOps $chatops    = {
+  R10k::Webhook::Config::ChatOps $chatops    = {},
+  Optional[R10k::Webhook::Config::ChatOps] $chatops_default    = {
     enabled    => false,
     service    => undef,
     channel    => undef,
@@ -38,14 +42,16 @@ class r10k::webhook (
     certificate => undef,
     key         => undef,
   },
-  R10k::Webhook::Config::Server $server      = {
+  R10k::Webhook::Config::Config::Server $server    = {},
+  Optional[R10k::Webhook::Config::Server] $server_default      = {
     protected => true,
     user      => 'puppet',
     password  => 'puppet',
     port      => 4000,
     tls       => $tls,
   },
-  R10k::Webhook::Config::R10k $r10k = {
+  R10k::Webhook::Config::R10k $r10k    = {},
+  Optional[R10k::Webhook::Config::R10k] $r10k_default = {
     command_path    => '/opt/puppetlabs/puppet/bin/r10k',
     config_path     => '/etc/puppetlabs/r10k/r10k.yaml',
     default_branch  => 'production',
@@ -56,9 +62,9 @@ class r10k::webhook (
     generate_types  => true,
   },
   R10k::Webhook::Config $config              = {
-    server  => $server,
-    chatops => $chatops,
-    r10k    => $r10k,
+    server  => $server_default + $server,
+    chatops => $chatops_default + $chatops,
+    r10k    => $r10k_default + $r10k,
   },
 ) inherits r10k::params {
   contain r10k::webhook::package
