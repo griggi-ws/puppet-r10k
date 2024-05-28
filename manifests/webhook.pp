@@ -28,8 +28,10 @@ class r10k::webhook (
   Boolean $service_enabled = true,
   String $config_ensure                      = 'file',
   String $config_path                        = '/etc/voxpupuli/webhook.yml',
-  R10k::Webhook::Config::ChatOps $chatops    = {},
-  Optional[R10k::Webhook::Config::ChatOps] $chatops_default    = {
+  R10k::Webhook::Config::ChatOps $chatops    = {
+    enabled => false,
+  },
+  R10k::Webhook::Config::ChatOps $chatops_default    = {
     enabled    => false,
     service    => undef,
     channel    => undef,
@@ -42,8 +44,10 @@ class r10k::webhook (
     certificate => undef,
     key         => undef,
   },
-  R10k::Webhook::Config::Server $server    = {},
-  Optional[R10k::Webhook::Config::Server] $server_default      = {
+  R10k::Webhook::Config::Server $server    = {
+    protected => true,
+  },
+  R10k::Webhook::Config::Server $server_default      = {
     protected => true,
     user      => 'puppet',
     password  => 'puppet',
@@ -51,7 +55,7 @@ class r10k::webhook (
     tls       => $tls,
   },
   R10k::Webhook::Config::R10k $r10k    = {},
-  Optional[R10k::Webhook::Config::R10k] $r10k_default = {
+  R10k::Webhook::Config::R10k $r10k_default = {
     command_path    => '/opt/puppetlabs/puppet/bin/r10k',
     config_path     => '/etc/puppetlabs/r10k/r10k.yaml',
     default_branch  => 'production',
