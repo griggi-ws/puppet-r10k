@@ -23,7 +23,7 @@ class r10k::webhook::package () {
       file { $pkg_file:
         ensure   => file,
         source   => $package_url,
-        checksum => 'sha256',
+        checksum => 'mtime',
         before   => Package['webhook-go'],
       }
 
