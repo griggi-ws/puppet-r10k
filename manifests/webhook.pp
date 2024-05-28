@@ -42,7 +42,7 @@ class r10k::webhook (
     certificate => undef,
     key         => undef,
   },
-  R10k::Webhook::Config::Config::Server $server    = {},
+  R10k::Webhook::Config::Server $server    = {},
   Optional[R10k::Webhook::Config::Server] $server_default      = {
     protected => true,
     user      => 'puppet',
